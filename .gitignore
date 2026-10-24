@@ -7,3 +7,5 @@ extracted_imgs/
 friend_file_text.json
 test_shot.png
 generated_screens/
+~$*
+*.tmp
