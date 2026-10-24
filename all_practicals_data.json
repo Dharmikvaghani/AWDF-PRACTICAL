@@ -1,0 +1,197 @@
+[
+  {
+    "practical_num": 1,
+    "aim": "To set up a React development environment using Vite and build a static student portfolio page composed of  independently structured, reusable functional components (Header, About, Skills, and Footer), demonstrating  component composition and one-way data flow from parent to child components through props.",
+    "github_link": "https://github.com/Dharmikvaghani/AWDF-PRACTICAL.git",
+    "highlights_title": "Key Architectural Components:",
+    "highlights": [
+      "1. Header.jsx: Reusable top branding banner accepting 'name', 'themeColor', and 'subtitle' props.",
+      "2. About.jsx: Student biography, department, roll number, and contact links.",
+      "3. Skills.jsx: Dynamic technical skills listing rendering reusable SkillBadge components.",
+      "4. Footer.jsx: Standardized copyright and academic institution metadata footer."
+    ],
+    "code": "// src/components/Header.jsx\nfunction Header({ name = 'Dharmik Vaghani', subtitle }) {\n  return (\n    <header className=\"portfolio-header\">\n      <h1>Student Portfolio & Full Stack Platform</h1>\n      <p className=\"header-name\">{name}</p>\n      {subtitle && <p className=\"header-subtitle\">{subtitle}</p>}\n    </header>\n  );\n}\nexport default Header;\n// src/components/Skills.jsx\nfunction Skills({ skills }) {\n  return (\n    <section className=\"skills-grid\">\n      {skills.map((skill) => (\n        <span key={skill.name} className=\"skill-badge\" style={{ background: skill.color }}>\n          {skill.name}\n        </span>\n      ))}\n    </section>",
+    "page2_code": ");\n}\nexport default Skills;",
+    "figure_img": "processed_figures/figure_1.png",
+    "figure_caption": "Figure 1: Execution Output & Functional Verification for Practical 1"
+  },
+  {
+    "practical_num": 2,
+    "aim": "To implement client-side routing and dynamic state management in React using React Router DOM, configuring  declarative routes (/ , /projects, /contact), navigation bars with active state indicators, and reactive state variables  (useState, useEffect) for interactive dark/light theme switching.",
+    "github_link": "https://github.com/Dharmikvaghani/AWDF-PRACTICAL.git",
+    "highlights_title": "Key Implementation Highlights:",
+    "highlights": [
+      "1. BrowserRouter, Routes, and Route configured in App.jsx.",
+      "2. NavLink component utilized with isActive styling function.",
+      "3. useState hook managing global theme state (Dark/Light mode) persisted in localStorage."
+    ],
+    "code": "// src/App.jsx (Routing & Theme State)\nfunction App() {\n  const [isDarkMode, setIsDarkMode] = useState(() => localStorage.getItem('theme') === 'dark');\n  const toggleTheme = () => setIsDarkMode(prev => !prev);\n  return (\n    <BrowserRouter>\n      <div className={isDarkMode ? 'dark-theme' : 'light-theme'}>\n        <NavBar isDarkMode={isDarkMode} onToggleTheme={toggleTheme} />\n        <Routes>\n          <Route path=\"/\" element={<Home />} />\n          <Route path=\"/projects\" element={<Projects />} />\n          <Route path=\"/contact\" element={<Contact />} />\n          <Route path=\"*\" element={<NotFound />} />\n        </Routes>\n      </div>\n    </BrowserRouter>\n  );\n}\nOutput",
+    "page2_code": "",
+    "figure_img": "processed_figures/figure_2.png",
+    "figure_caption": "Figure 2: Execution Output & Functional Verification for Practical 2"
+  },
+  {
+    "practical_num": 3,
+    "aim": "To integrate external RESTful APIs into a React application using asynchronous HTTP requests (fetch / axios)  within the useEffect lifecycle hook, implementing robust data rendering, client-side search filtering, loading state  skeletons, and defensive error handling boundaries.",
+    "github_link": "https://github.com/Dharmikvaghani/AWDF-PRACTICAL.git",
+    "highlights_title": "Key Implementation Highlights:",
+    "highlights": [
+      "1. Asynchronous fetch from GitHub REST API (https:"
+    ],
+    "code": "//api.github.com/users/Dharmikvaghani/repos).\n2. Defensive state management handling loading skeletons, HTTP error statuses, and empty search arrays.\n3. Real-time text filter allowing dynamic querying across repository names and topics.\n// src/pages/Projects.jsx\nfunction Projects() {\n  const [repos, setRepos] = useState([]);\n  const [loading, setLoading] = useState(true);\n  const [search, setSearch] = useState('');\n  useEffect(() => {\n    fetch('https://api.github.com/users/Dharmikvaghani/repos')\n      .then(res => res.json())\n      .then(data => { setRepos(data); setLoading(false); })\n      .catch(err => { console.error(err); setLoading(false); });\n  }, []);\n  const filtered = repos.filter(r => r.name.toLowerCase().includes(search.toLowerCase()));\n  return (\n    <div className=\"projects-container\">\n      <input value={search} onChange={e => setSearch(e.target.value)} placeholder=\"Filter...\" />\n      {loading ? <Skeleton /> : filtered.map(r => <RepoCard key={r.id} repo={r} />)}\n    </div>\n  );\n}\nOutput",
+    "page2_code": "",
+    "figure_img": "processed_figures/figure_3.png",
+    "figure_caption": "Figure 3: Execution Output & Functional Verification for Practical 3"
+  },
+  {
+    "practical_num": 4,
+    "aim": "To design and implement a RESTful backend API using Node.js and the Express framework, defining structured  routing architectures, request parsing middleware, custom request logging, and complete CRUD endpoints (GET,  POST, PUT, DELETE) with appropriate HTTP status codes and centralized error handling.",
+    "github_link": "https://github.com/Dharmikvaghani/AWDF-PRACTICAL.git",
+    "highlights_title": "Key Implementation Highlights:",
+    "highlights": [
+      "1. Express router modularization: routes/taskRoutes.js and controllers/taskController.js.",
+      "2. Middleware pipeline: express.json(), requestLogger, errorHandler.",
+      "3. Complete HTTP status code contract adherence (200 OK, 201 Created, 400 Bad Request, 404 Not Found)."
+    ],
+    "code": "// routes/taskRoutes.js\nrouter.get('/tasks', getTasks);\nrouter.post('/tasks', createTask);\nrouter.put('/tasks/:id', updateTask);\nrouter.delete('/tasks/:id', deleteTask);\n// controllers/taskController.js\nexport const createTask = (req, res) => {\n  const { title, priority } = req.body;\n  if (!title) return res.status(400).json({ error: 'Title required' });\n  const newTask = { id: Date.now(), title, priority: priority || 'medium', completed: false };\n  tasks.push(newTask);\n  res.status(201).json({ success: true, data: newTask });\n};\nOutput",
+    "page2_code": "",
+    "figure_img": "processed_figures/figure_4.png",
+    "figure_caption": "Figure 4: Execution Output & Functional Verification for Practical 4"
+  },
+  {
+    "practical_num": 5,
+    "aim": "To integrate MongoDB NoSQL database into the Express application using Mongoose ODM, designing robust data  models with schema definitions, data type validations, required constraints, default timestamps, and performing  asynchronous database CRUD operations with error catching.",
+    "github_link": "https://github.com/Dharmikvaghani/AWDF-PRACTICAL.git",
+    "highlights_title": "Key Implementation Highlights:",
+    "highlights": [
+      "1. config/db.js: Mongoose connection management with retry and graceful shutdown.",
+      "2. models/Task.js: Strict Mongoose schema with type validation, enum priority constraint, and timestamps.",
+      "3. Asynchronous controller refactoring using async/await and Mongoose queries (Task.find, Task.create)."
+    ],
+    "code": "// models/Task.js\nconst taskSchema = new mongoose.Schema({\n  title: { type: String, required: [true, 'Task title required'], trim: true },\n  description: { type: String, default: '' },\n  priority: { type: String, enum: ['low', 'medium', 'high'], default: 'medium' },\n  completed: { type: Boolean, default: false },\n}, { timestamps: true });\nexport default mongoose.model('Task', taskSchema);\n// config/db.js\nexport const connectDB = async () => {\n  await mongoose.connect(process.env.MONGO_URI);\n  console.log('✅ MongoDB Connected Successfully');\n};\nOutput",
+    "page2_code": "",
+    "figure_img": "processed_figures/figure_5.png",
+    "figure_caption": "Figure 5: Execution Output & Functional Verification for Practical 5"
+  },
+  {
+    "practical_num": 6,
+    "aim": "To achieve full-stack application integration by connecting the React frontend with the Node.js/Express/MongoDB  backend, configuring Cross-Origin Resource Sharing (CORS), implementing an asynchronous API service layer,  and providing optimistic UI updates for task creation, toggling, and deletion.",
+    "github_link": "https://github.com/Dharmikvaghani/AWDF-PRACTICAL.git",
+    "highlights_title": "Key Implementation Highlights:",
+    "highlights": [
+      "1. Centralized frontend API service layer (api.js) handling fetch abstractions and errors.",
+      "2. Backend Express CORS middleware permitting Vite dev origins.",
+      "3. Optimistic UI updates in React state with automatic rollback on network failure."
+    ],
+    "code": "// frontend/src/api.js\nexport async function createTask(taskData) {\n  const res = await fetch(`${API_BASE}/tasks`, {\n    method: 'POST',\n    headers: { 'Content-Type': 'application/json' },\n    body: JSON.stringify(taskData)\n  });\n  return (await res.json()).data;\n}\n// Optimistic creation in TaskManager.jsx\nsetTasks(prev => [optimisticTask, ...prev]);\ntry {\n  const saved = await createTask(taskData);\n  setTasks(prev => prev.map(t => t._id === tempId ? saved : t));\n} catch (err) {\n  setTasks(prev => prev.filter(t => t._id !== tempId)); // Rollback\n}\nOutput",
+    "page2_code": "",
+    "figure_img": "processed_figures/figure_6.png",
+    "figure_caption": "Figure 6: Execution Output & Functional Verification for Practical 6"
+  },
+  {
+    "practical_num": 7,
+    "aim": "To implement secure token-based user authentication using JSON Web Tokens (JWT) and bcryptjs password  hashing, constructing an Express authentication pipeline with registration, login, and custom authentication  middleware to protect private API endpoints against unauthorized access.",
+    "github_link": "https://github.com/Dharmikvaghani/AWDF-PRACTICAL.git",
+    "highlights_title": "Key Implementation Highlights:",
+    "highlights": [
+      "1. User model password encryption using bcryptjs salt rounds in pre-save middleware.",
+      "2. JWT token issuance upon registration/login with 7-day expiration.",
+      "3. authMiddleware verifying Authorization: Bearer <token> headers and attaching user context."
+    ],
+    "code": "// middleware/auth.js\nexport const authenticate = (req, res, next) => {\n  const authHeader = req.headers.authorization;\n  if (!authHeader?.startsWith('Bearer ')) {\n    return res.status(401).json({ error: 'Unauthorized: Missing token' });\n  }\n  const token = authHeader.split(' ')[1];\n  try {\n    req.user = jwt.verify(token, process.env.JWT_SECRET);\n    next();\n  } catch (err) {\n    res.status(401).json({ error: 'Unauthorized: Invalid token' });\n  }\n};\nOutput",
+    "page2_code": "",
+    "figure_img": "processed_figures/figure_7.png",
+    "figure_caption": "Figure 7: Execution Output & Functional Verification for Practical 7"
+  },
+  {
+    "practical_num": 8,
+    "aim": "To optimize the performance and bundle delivery of a React web application using code-splitting via React.lazy()  and Suspense, isolating component re-renders with React.memo(), memoizing expensive operations with  useMemo() and useCallback(), and configuring Vite manual chunk splitting.",
+    "github_link": "https://github.com/Dharmikvaghani/AWDF-PRACTICAL.git",
+    "highlights_title": "Key Implementation Highlights:",
+    "highlights": [
+      "1. Lazy loaded components (TaskAnalytics) dynamically imported on demand with skeleton fallback.",
+      "2. TaskItem wrapped in React.memo with internal edit state to eliminate full-list re-renders.",
+      "3. Vite manualChunks splitting vendor-react and vendor-router into independent cached bundles."
+    ],
+    "code": "// frontend/src/pages/TaskManager.jsx\nconst TaskAnalytics = lazy(() => import('../components/TaskAnalytics'));\n// vite.config.js (Chunk Splitting)\nbuild: {\n  rollupOptions: {\n    output: {\n      manualChunks(id) {\n        if (id.includes('node_modules/react') || id.includes('node_modules/react-dom')) return 'vendor-react';\n        if (id.includes('node_modules/react-router')) return 'vendor-router';\n      }\n    }\n  }\n}\nOutput",
+    "page2_code": "",
+    "figure_img": "processed_figures/figure_8.png",
+    "figure_caption": "Figure 8: Execution Output & Functional Verification for Practical 8"
+  },
+  {
+    "practical_num": 9,
+    "aim": "To enhance backend API response throughput and minimize redundant database queries by implementing an in- memory caching layer using node-cache with a 60-second Time-To-Live (TTL), user-scoped cache keys, automatic  write invalidation on mutations (POST/PUT/DELETE), and cache telemetry endpoints.",
+    "github_link": "https://github.com/Dharmikvaghani/AWDF-PRACTICAL.git",
+    "highlights_title": "Key Implementation Highlights:",
+    "highlights": [
+      "1. Shared cache module (config/cache.js) configured with stdTTL: 60s and deleteOnExpire: true.",
+      "2. Scoped cache keys per user: tasks:${userId}:list avoiding cross-tenant cache leaks.",
+      "3. Immediate cache invalidation on write operations and GET /tasks/cache/stats diagnostic endpoint."
+    ],
+    "code": "// controllers/taskController.js\nexport const getTasks = async (req, res) => {\n  const cacheKey = `tasks:${req.user.id}:list`;\n  const cached = cache.get(cacheKey);\n  if (cached) return res.status(200).json({ success: true, data: cached, fromCache: true });\n  const tasks = await Task.find({ user: req.user.id });\n  cache.set(cacheKey, tasks, 60);\n  res.status(200).json({ success: true, data: tasks, fromCache: false });\n};\nOutput",
+    "page2_code": "",
+    "figure_img": "processed_figures/figure_9.png",
+    "figure_caption": "Figure 9: Execution Output & Functional Verification for Practical 9"
+  },
+  {
+    "practical_num": 10,
+    "aim": "To decouple heavy, time-consuming operations from the synchronous HTTP request-response cycle by  implementing an asynchronous Event-Driven Architecture using Node.js's native EventEmitter, dispatching  background tasks (task-created, task-deleted) without delaying client responses.",
+    "github_link": "https://github.com/Dharmikvaghani/AWDF-PRACTICAL.git",
+    "highlights_title": "Key Implementation Highlights:",
+    "highlights": [
+      "1. Shared EventEmitter module (events/events.js) with global error boundary.",
+      "2. Asynchronous background event listeners (events/listeners.js) executing simulated 2000ms notifications.",
+      "3. Handlers return HTTP 201 immediately in 26ms while background listeners complete asynchronously."
+    ],
+    "code": "// events/listeners.js\ntaskEvents.on('task-created', (taskData) => {\n  setTimeout(() => {\n    console.log(`[EVENT: task-created] Notification Dispatched for \"${taskData.title}\"`);\n  }, 2000); // Decoupled asynchronous processing\n});\n// In taskController.js\nconst newTask = await Task.create(taskData);\nres.status(201).json({ success: true, data: newTask }); // Immediate HTTP response\ntaskEvents.emit('task-created', newTask); // Emitted asynchronously\nOutput",
+    "page2_code": "",
+    "figure_img": "processed_figures/figure_10.png",
+    "figure_caption": "Figure 10: Execution Output & Functional Verification for Practical 10"
+  },
+  {
+    "practical_num": 11,
+    "aim": "To containerize the full-stack web application using Docker and Docker Compose, designing a multi-stage  Dockerfile for the frontend SPA served via Nginx, a lightweight Node.js backend container, an isolated bridge  network, and persistent named volumes for MongoDB data retention.",
+    "github_link": "https://github.com/Dharmikvaghani/AWDF-PRACTICAL.git",
+    "highlights_title": "Key Implementation Highlights:",
+    "highlights": [
+      "1. Multi-stage frontend Dockerfile: Node.js 20 build stage -> Nginx Alpine production runtime.",
+      "2. Backend Dockerfile: Node.js 20-alpine with production dependency caching and 0.0.0.0 binding.",
+      "3. docker-compose.yml: Coordinates frontend (8080), backend (5000), and mongodb (27017) over app-network."
+    ],
+    "code": "// docker-compose.yml\nservices:\n  mongodb:\n    image: mongo:7.0\n    volumes: [ awdf-mongodb-data-practical11:/data/db ]\n  backend:\n    build: ./backend\n    environment:\n      MONGO_URI: mongodb://mongodb:27017/taskdb_docker\n    depends_on: [ mongodb ]\n  frontend:\n    build: ./frontend\n    ports: [ \"8080:80\" ]\n    depends_on: [ backend ]\nOutput",
+    "page2_code": "",
+    "figure_img": "processed_figures/figure_11.png",
+    "figure_caption": "Figure 11: Execution Output & Functional Verification for Practical 11"
+  },
+  {
+    "practical_num": 12,
+    "aim": "To establish a Continuous Integration (CI) pipeline using GitHub Actions, automating static code analysis (npm run  lint), backend integration testing against an ephemeral MongoDB 7.0 service container (npm test), and production  frontend build verification on every push and pull request.",
+    "github_link": "https://github.com/Dharmikvaghani/AWDF-PRACTICAL.git",
+    "highlights_title": "Key Implementation Highlights:",
+    "highlights": [
+      "1. .github/workflows/ci.yml: Multi-job pipeline triggered on push & pull_request to main.",
+      "2. test-backend job: Configures official mongo:7.0 service container with health checks.",
+      "3. build-frontend job: Enforces clean production bundle compilation with Vite."
+    ],
+    "code": "// .github/workflows/ci.yml\njobs:\n  lint:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - run: npm --prefix frontend ci && npm --prefix frontend run lint\n  test-backend:\n    runs-on: ubuntu-latest\n    services:\n      mongodb:\n        image: mongo:7.0\n        ports: [ 27017:27017 ]\n    steps:\n      - run: npm --prefix backend ci && npm --prefix backend test\nOutput",
+    "page2_code": "",
+    "figure_img": "processed_figures/figure_12.png",
+    "figure_caption": "Figure 12: Execution Output & Functional Verification for Practical 12"
+  },
+  {
+    "practical_num": 13,
+    "aim": "To integrate an external Generative AI service into a web application using server-side REST APIs (Google  Gemini / OpenAI), implementing secret credential protection, sliding-window rate limiting, and a resilient non- blocking fallback engine to enhance user productivity in task description creation.",
+    "github_link": "https://github.com/Dharmikvaghani/AWDF-PRACTICAL.git",
+    "highlights_title": "Key Implementation Highlights:",
+    "highlights": [
+      "1. Server-side AI service (backend/src/services/aiService.js) securing API keys exclusively in .env.",
+      "2. Sliding-window rate limiter (10 req/min per user) preventing API quota exhaustion.",
+      "3. Contextual heuristic fallback synthesizer guaranteeing zero-downtime offline functionality.",
+      "4. Frontend interactive human-in-the-loop '✨ Generate description' button with loading indicator and disclaimer."
+    ],
+    "code": "// backend/src/controllers/aiController.js\nexport async function generateDescriptionHandler(req, res) {\n  const { title, priority } = req.body;\n  if (!title) return res.status(400).json({ error: 'Title required' });\n  const result = await generateTaskDescription({ title, priority });\n  res.status(200).json({\n    success: true,\n    description: result.description,\n    source: result.source,\n    disclaimer: 'AI-generated draft. Review and adjust before saving.'\n  });\n}\nOutput",
+    "page2_code": "",
+    "figure_img": "processed_figures/figure_13.png",
+    "figure_caption": "Figure 13: Execution Output & Functional Verification for Practical 13"
+  }
+]

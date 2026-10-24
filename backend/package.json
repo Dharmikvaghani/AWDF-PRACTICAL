@@ -1,0 +1,21 @@
+{
+  "name": "awdf-backend",
+  "version": "1.0.0",
+  "description": "AWDF RESTful API Server - Dharmik Vaghani (24CS104)",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node --test --test-force-exit tests/task.test.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.5.2",
+    "node-cache": "^5.1.2"
+  }
+}
